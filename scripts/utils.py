@@ -130,7 +130,7 @@ def par_sent_number(identifier):
     strip = identifier.split(".")
     
     if "p" in identifier:
-        par,sent = strip[-4],strip[-3]
+        par,sent = strip[-5],strip[-3]
     else:
         sent     = strip[-3]
         
