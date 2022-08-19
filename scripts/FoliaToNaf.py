@@ -72,8 +72,6 @@ class FoliaToNaf():
         sets all kinds of counters relevant for conversion
         
         '''
-        #parse folia
-        self.doc              = etree.parse(self.path).getroot()
         
         #set word_number to index 1 and offset to 0
         self.word_number      = 1
@@ -234,24 +232,7 @@ class FoliaToNaf():
         and calls to self.process_w_el
         '''
         
-        #create string to find element in folia
-        #with one variable to be filled base on whether is a CGN file or not
-        string = "/".join([self.prefix+"text",
-                           "%s",
-                           self.prefix+"s",
-                               ])
-        in_between = ""
-        
-        if all(["CGN-comp" not in self.path,
-                os.path.basename(self.path).startswith("allwords") == False]):
-            in_between = "/".join([self.prefix+"div",
-                                   self.prefix+"p"])
-            
-        
-        #loop through words
-        for w_el in self.doc.iterfind("/".join([string % in_between,
-                                                self.prefix+"w"])):
-            
+        for (_, w_el) in etree.iterparse(self.path, tag=self.prefix+"w"):
             #increment self.word_number and process it
             self.process_w_el(w_el)
             self.word_number+=1
